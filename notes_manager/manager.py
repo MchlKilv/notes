@@ -5,6 +5,7 @@ import os
 
 class NotesManager:
     def __init__(self, filename="data/notes.json"):
+        # Загрузка заметок из файла JSON
         self.filename = filename
         self.notes = []
         self.load_notes()
@@ -24,10 +25,12 @@ class NotesManager:
             self.notes = []
 
     def save_notes(self):
+        # Сохранение заметок в файл JSON
         with open(self.filename, "w") as file:
             json.dump(self.notes, file, indent=2)
 
     def add_note(self, title, message):
+        # Добавление новой заметки
         note = {
             "id": len(self.notes) + 1,
             "title": title,
@@ -39,6 +42,7 @@ class NotesManager:
         print("Заметка успешно сохранена.")
 
     def list_notes(self, date_filter=None):
+        # Вывод списка заметок с фильтром по дате
         if date_filter:
             filtered_notes = [
                 note for note in self.notes if note["timestamp"].startswith(date_filter)
@@ -54,6 +58,7 @@ class NotesManager:
                 )
 
     def edit_note(self, note_id, title, message):
+        # Изменение заметки по ID
         if 1 <= note_id <= len(self.notes):
             self.notes[note_id - 1]["title"] = title
             self.notes[note_id - 1]["message"] = message
@@ -64,6 +69,7 @@ class NotesManager:
             print("Неверный номер заметки.")
 
     def delete_note(self, note_id):
+        # Удаление заметки по ID
         if 1 <= note_id <= len(self.notes):
             deleted_note = self.notes.pop(note_id - 1)
             self.save_notes()
